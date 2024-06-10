@@ -9,7 +9,3 @@ mongoose
   .catch((err) => {
     console.log(err);
   });
-
-// const Schema = mongoose.Schema();
-
-// const userSchema = new Schema({});

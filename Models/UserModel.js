@@ -1,6 +1,7 @@
 const UserSchema = require("../Schemas/UserSchema");
 const brcypt = require("bcrypt");
 const SALT = parseInt(process.env.SALT);
+const ObjectId = require("mongodb").ObjectId;
 
 const User = class {
   username;
@@ -71,6 +72,20 @@ const User = class {
         resolve(userDb);
       } catch (error) {
         reject(error);
+      }
+    });
+  }
+
+  static verifyUserId({ userId }) {
+    return new Promise(async (resolve, reject) => {
+      if (!ObjectId.isValid(userId)) reject("Invalid User");
+
+      try {
+        const userDb = await UserSchema.findOne({ _id: userId });
+        if (!userDb) reject(`User not found with userId:${userId}`);
+        resolve(userDb);
+      } catch (error) {
+        return reject(error);
       }
     });
   }

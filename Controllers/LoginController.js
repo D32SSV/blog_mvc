@@ -26,7 +26,7 @@ const loginController = async (req, res) => {
     req.session.user = {
       userId: userDb._id,
       email: userDb.email,
-      name: userDb.name,
+      username: userDb.username,
     };
 
     return res.send({

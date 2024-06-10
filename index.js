@@ -10,6 +10,8 @@ const Mongo_URI = process.env.Mongo_URI;
 //file import
 const db = require("./db");
 const AuthRouter = require("./Routes/AuthRouter");
+const BlogRouter = require("./Routes/BlogRouter");
+const isAuth = require("./Middlewares/isAuth");
 
 const app = express();
 
@@ -35,8 +37,9 @@ app.get("/", (req, res) => {
 });
 
 app.use("/auth", AuthRouter);
+app.use("/blog",isAuth, BlogRouter);
 
 
 app.listen(PORT, () => {
-  console.log(`server Ok runing on ${PORT}`);
+  console.log(`server Ok runing on http://localhost:${PORT}/`);
 });
