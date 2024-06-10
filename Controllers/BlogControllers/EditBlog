@@ -42,9 +42,10 @@ const EditBlog = async (req, res) => {
       });
     }
   } catch (error) {
+    // console.log(error);
     return res.send({
       status: 500,
-      message: "DB Error",
+      message: "DAB Error",
       error: error,
     });
   }
