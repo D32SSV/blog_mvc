@@ -1,4 +1,4 @@
-const { getBlogWithId } = require("../../Models/BlogModel");
+const { getBlogWithId, updateBlog } = require("../../Models/BlogModel");
 const User = require("../../Models/UserModel");
 const blogDataValidation = require("../../Utils/BlogUtil");
 
@@ -21,10 +21,8 @@ const EditBlog = async (req, res) => {
   }
 
   try {
-    // console.log("Jais ashidhasdof");
     const blogDb = await getBlogWithId({ blogId });
-    // console.log("Jais ashidhasdof");
-    console.log(blogDb);
+    // console.log(blogDb);
 
     if (!userId.equals(blogDb.userId)) {
       return res.send({
@@ -41,6 +39,12 @@ const EditBlog = async (req, res) => {
         message: "Not allow to edit after 30 mins of creation",
       });
     }
+    const prevBlog = await updateBlog({ title, textBody, blogId });
+    return res.send({
+      status: 200,
+      message: "Blog update success!",
+      data: prevBlog,
+    });
   } catch (error) {
     // console.log(error);
     return res.send({

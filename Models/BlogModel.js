@@ -2,7 +2,6 @@ const BlogSchema = require("../Schemas/BlogSchema");
 const { LIMIT } = require("../privateConstants");
 const ObjectId = require("mongodb").ObjectId;
 
-
 const createBlog = ({ title, textBody, creationDateTime, userId }) => {
   return new Promise(async (resolve, reject) => {
     // console.log(title, textBody, creationDateTime, userId);
@@ -74,4 +73,38 @@ const getBlogWithId = ({ blogId }) => {
   });
 };
 
-module.exports = { createBlog, getAllBlogs, getMyBlog, getBlogWithId };
+const updateBlog = ({ title, textBody, blogId }) => {
+  return new Promise(async (resolve, reject) => {
+    let newBlogData = {};
+    newBlogData.title = title;
+    newBlogData.textBody = textBody;
+    try {
+      const prevBlog = await BlogSchema.findOneAndUpdate(
+        { _id: blogId },
+        { newBlogData }
+      );
+      resolve(prevBlog);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
+const deleteBlog = ({ blogId }) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      const currentBlog = await BlogSchema.findOneAndDelete({ _id: blogId });
+      resolve(currentBlog);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+module.exports = {
+  createBlog,
+  getAllBlogs,
+  getMyBlog,
+  getBlogWithId,
+  updateBlog,
+  deleteBlog,
+};
